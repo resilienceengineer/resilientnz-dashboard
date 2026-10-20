@@ -1,0 +1,28 @@
+name: Check dashboard
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - name: Rebuild infrastructure dashboard
+        run: node infrastructure/build-variant.cjs
+      - name: Check scripts and calculations
+        run: |
+          node --check infrastructure/app.js
+          node --check infrastructure/network_data.js
+          node infrastructure/model.test.cjs
+      - name: Check generated files are current
+        run: git diff --exit-code -- infrastructure/app.js infrastructure/data.js infrastructure/index.html

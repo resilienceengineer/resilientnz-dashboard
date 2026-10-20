@@ -1,58 +1,27 @@
-# Resilient NZ v3 — Pathways Explorer
+# Resilient Aotearoa NZ — Infrastructure Pathways
 
-Map-first rebuild of the Resilient NZ dashboard: a full-bleed OpenStreetMap basemap with
-cinematic camera flights between the national overview and city decision contexts, live
-government hazard GIS overlays, and a compact MCDA pathway-ranking panel.
+A prototype dashboard for exploring resilience investments in roads and highways, water and wastewater, and power infrastructure. Costs, B/C ratios, carbon inventories and scores are realistic illustrations, not validated research outputs.
 
-## Run
+## Website versions
 
-**No server needed:** just double-click `index.html`. All hazard/strategic data is
-embedded in `data_bundle.js` (regenerate with `python build_data_bundle.py` after
-refreshing snapshots).
+- **Current dashboard:** the main website automatically opens `infrastructure/`.
+- **Original dashboard:** available at `original.html`. Its root application files are retained, and also supply shared map behaviour and assets to the infrastructure build.
+- [Infrastructure model, mapping sources and development notes](infrastructure/README.md)
+- [Original edition documentation](infrastructure/ORIGINAL_README.md)
+- [Version notes](CHANGELOG.md)
 
-Or serve it if you prefer:
+## Run locally
 
-```bash
-python -m http.server 8017
-```
+Run `node infrastructure/serve.cjs` and open <http://127.0.0.1:8017/>. The main page opens the infrastructure edition. Internet access is required for map tiles, fonts and live feeds. The app can also be opened directly using `infrastructure/index.html`.
 
-Then open http://localhost:8017/resilientnz_v3/
+## Update and publish
 
-Internet access is still required for the basemap, terrain tiles, fonts and the
-two live GeoNet feeds (earthquakes, volcano alerts).
+1. Edit the infrastructure source modules described in its README.
+2. Run `node infrastructure/build-variant.cjs` and `node infrastructure/model.test.cjs`.
+3. Commit the source changes together with the generated files, then push `main`.
 
-## Stack
+For GitHub Pages, publish **main / (root)** in the repository's **Settings → Pages**. The root entry page redirects using a relative URL, so the infrastructure edition works under the repository's existing website address. `.nojekyll` keeps the static files unchanged. No hosting migration or package installation is needed.
 
-- **MapLibre GL JS v5** — WebGL map with globe projection, 3D terrain, pitch + bearing animation.
-- **OpenFreeMap `positron` style** — free OpenStreetMap vector tiles, no API key.
-- **AWS Terrain Tiles (Mapzen terrarium)** — free 3D elevation, no API key.
-- **Open hazard GIS services** — streamed as GeoJSON, endpoints configured in `data.js`
-  (`HAZARD_LAYERS`). See the main analysis for the verified endpoint list.
+The check workflow rebuilds the infrastructure edition, checks JavaScript and calculations, and verifies that generated files were committed. Script and stylesheet URLs change with their contents so later updates refresh browser caches.
 
-## Choreography
-
-- Intro: globe view over the Pacific → 5 s flight to Aotearoa.
-- City chips / pulsing map markers → 4.4 s fly-to with 55–60° pitch and a set bearing,
-  then a slow cinematic orbit (interrupted by any user input).
-- "Back to NZ" → camera returns to the flat national overview.
-- Hazard layers fade in over ~1 s when toggled; loaded layers are cached.
-
-## Known rendering note: terrain vs data layers
-
-MapLibre GL **v5** has a terrain render-to-texture cache flaw ([maplibre-gl-js
-#7363](https://github.com/maplibre/maplibre-gl-js/issues/7363)) that makes
-draped GeoJSON layers flicker while the camera moves — worst at 55–60° pitch.
-It is fixed only in **v6.0.0+** ([PR #7549](https://github.com/maplibre/maplibre-gl-js/pull/7549)).
-
-This app therefore treats 3D terrain as a *flight/sightseeing* effect: the view
-flattens automatically whenever any hazard or asset layer is shown
-(`updateTerrainMode()` in app.js). To have terrain and layers together
-flicker-free, migrate to `maplibre-gl@6.3.0` — note v6 is ESM-only, which
-breaks the double-click `file://` mode unless the library is vendored as a
-locally built classic-script bundle.
-
-## Data status
-
-All pathway scores, costs, BCRs and resilience gains in `data.js` are **illustrative demo
-values** — replace `PATHWAYS`, `CITY_MODIFIERS` and `DEFAULT_WEIGHTS` with validated research
-data. Hazard layer endpoints marked `url: null` are awaiting a verified service URL.
+Keep the existing GitHub commit history. Mark the original commit with `original-dashboard`, and the first infrastructure release with `infrastructure-v1`. Later work uses normal commits on `main`; release tags record versions without replacing history. To restore an older version, revert the relevant update through a new commit.

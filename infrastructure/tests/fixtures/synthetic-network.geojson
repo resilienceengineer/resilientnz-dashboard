@@ -1,0 +1,7 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    { "type": "Feature", "properties": { "name": "TEST ONLY — synthetic pipe", "asset_type": "Test water main" }, "geometry": { "type": "LineString", "coordinates": [[174.755, -36.85], [174.765, -36.85], [174.775, -36.855]] } },
+    { "type": "Feature", "properties": { "name": "TEST ONLY — synthetic pump", "asset_type": "Test pump station" }, "geometry": { "type": "Point", "coordinates": [174.765, -36.85] } }
+  ]
+}

@@ -1,0 +1,7 @@
+.claude/
+.deployment/
+__pycache__/
+*.pyc
+infrastructure/.network-cache/
+infrastructure/*.jpg
+infrastructure/*.png

@@ -1,0 +1,78 @@
+{
+  "city": "Auckland",
+  "bbox": [
+    174.55,
+    -37.05,
+    175,
+    -36.7
+  ],
+  "retrievedAt": "2026-10-20T07:15:02.544Z",
+  "providers": {
+    "Watercare": {
+      "label": "Watercare Services Limited",
+      "url": "https://www.watercare.co.nz/builders-and-developers/tools-fees-and-resources/gis-maps",
+      "license": "CC BY 4.0"
+    },
+    "Transpower": {
+      "label": "Transpower New Zealand Limited",
+      "url": "https://www.transpower.co.nz/our-work/industry/our-grid/maps-and-gis-data"
+    }
+  },
+  "layers": [
+    {
+      "id": "water-mains",
+      "url": "https://wslgis.water.co.nz/arcgis/rest/services/Public/Network/MapServer/2",
+      "filter": "STATUS IN ('OP','OPNV') AND NOM_DIA_MM >= 300",
+      "count": 7238
+    },
+    {
+      "id": "wastewater-mains",
+      "url": "https://wslgis.water.co.nz/arcgis/rest/services/Public/Network/MapServer/9",
+      "filter": "STATUS IN ('OP','OPNV') AND NOM_DIA_MM >= 450",
+      "count": 4629
+    },
+    {
+      "id": "water-pumps",
+      "url": "https://wslgis.water.co.nz/arcgis/rest/services/Public/Network/MapServer/3",
+      "filter": "STATUS IN ('OP','OPNV')",
+      "count": 59
+    },
+    {
+      "id": "reservoirs",
+      "url": "https://wslgis.water.co.nz/arcgis/rest/services/Public/Network/MapServer/4",
+      "filter": "STATUS IN ('OP','OPNV')",
+      "count": 61
+    },
+    {
+      "id": "water-treatment",
+      "url": "https://wslgis.water.co.nz/arcgis/rest/services/Public/Network/MapServer/5",
+      "filter": "STATUS IN ('OP','OPNV')",
+      "count": 5
+    },
+    {
+      "id": "wastewater-pumps",
+      "url": "https://wslgis.water.co.nz/arcgis/rest/services/Public/Network/MapServer/10",
+      "filter": "STATUS IN ('OP','OPNV')",
+      "count": 376
+    },
+    {
+      "id": "wastewater-treatment",
+      "url": "https://wslgis.water.co.nz/arcgis/rest/services/Public/Network/MapServer/11",
+      "filter": "STATUS IN ('OP','OPNV')",
+      "count": 3
+    },
+    {
+      "id": "transmission-lines",
+      "url": "https://services3.arcgis.com/AkUq3zcWf7TVqyR9/ArcGIS/rest/services/TransmissionLines/FeatureServer/0",
+      "filter": "1=1",
+      "count": 32
+    },
+    {
+      "id": "substations",
+      "url": "https://services3.arcgis.com/AkUq3zcWf7TVqyR9/ArcGIS/rest/services/Sites/FeatureServer/0",
+      "filter": "1=1",
+      "count": 20
+    }
+  ],
+  "processing": "Selected operating water mains >=300 mm and wastewater mains >=450 mm. Polygon facility footprints represented by centre points. Linework rounded and clipped to the demo extent. Transmission mapping is not a complete local distribution grid."
+}
